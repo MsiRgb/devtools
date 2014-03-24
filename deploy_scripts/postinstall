@@ -8,4 +8,23 @@
 # Description: A script that runs once
 ### END INIT INFO
 
-cd /var/tmp/postinstall ; /usr/bin/nohup bash /var/tmp/postinstall/postinstall-noha.sh -a &
+cd /var/tmp/postinstall
+
+# stage1
+bash postinstall-noha-stage1.sh
+
+# stage2
+bash postinstall-noha-stage2.sh
+
+# stage3
+for (( i=10; i > 0; i-- )) ; do
+	
+	bash postinstall-noha-stage3.sh
+	./script.sh 1
+if [ $? == 1 ]; then
+  echo "---- script.sh exited with failure!"
+else
+  echo "++++ script.sh exited with success!"
+fi
+done
+  
