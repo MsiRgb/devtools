@@ -1,4 +1,4 @@
-#!/bin/bash -xv
+#!/bin/bash 
 
 print_usage()
 {
@@ -45,20 +45,32 @@ while [[ $1 ]]; do
   esac
 done
 
-if [[ -z $output_file || -z $crowbar_iso || -z $build_dir || -z $postinstall_src_dir || ! -d $build_dir/.disc ]]; then
+if [[ -z $output_file || -z $crowbar_iso || -z $build_dir || -z $postinstall_src_dir || ! -d $build_dir/.disk ]]; then
   print_usage
   exit 1
 fi
 
 echo "Building AIO iso: $output_file from crowbar iso: $crowbar_iso and postinstall files from: $postinstall_src_dir in build directory: $build_dir"
 
+# Open up perms on build_dir
+chmod -R ug+rw $build_dir
+
+# Make postinstall dir
+mkdir -p $build_dir/postinstall
+
 # Copy crowbar iso to build dir
-cp $crowbar_iso $build_dir/postinstall/crowbar.iso || (echo "Failed to copy crowbar iso" && exit 1)
+rsync -av $crowbar_iso $build_dir/postinstall/crowbar.iso  || { echo "Failed to copy crowbar iso" ; exit 1; }
 
 # Copy over postinstall stuff
-cp -R $postinstall_src_dir $build_dir/postinstall/ || (echo "Failed to copy postinstall directory" && exit 1)
+rsync -av $postinstall_src_dir $build_dir/postinstall/ || { echo "Failed to copy postinstall directory" ; exit 1; }
 
-mkisofs -R -J -l -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table -iso-level 3 -o ${output_file} ${build_dir} || (echo "Failed to build AIO iso" && exit 1)
+# Copy over preseed file
+cp $build_dir/postinstall/kvm-server.seed $build_dir/preseed || { echo "Failed to copy kvm.preseed file" ; exit 1; }
+
+# Copy over isolinux.cfg file
+cp $build_dir/postinstall/isolinux.cfg $build_dir/isolinux/isolinux.cfg || { echo "Failed to copy isolinux.cfg file" ; exit 1; }
+
+mkisofs -R -J -l -allow-limited-size -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table -iso-level 3 -o ${output_file} ${build_dir} || { echo "Failed to AIO iso" ; exit 1; }
 
 echo "Build finished successfully!"
-exit 0
+
