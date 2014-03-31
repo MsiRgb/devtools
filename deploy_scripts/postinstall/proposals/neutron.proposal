@@ -1,0 +1,109 @@
+ {
+  "deployment": {
+    "neutron": {
+      "crowbar-revision": 1,
+      "element_run_list_order": {
+        "neutron-l3": 95,
+        "neutron-server": 94
+      },
+      "element_states": {
+        "neutron-l3": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "neutron-server": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      },
+      "elements": {
+        "neutron-l3": [
+          "REPLACE_ME"
+        ],
+        "neutron-server": [
+          "REPLACE_ME"
+        ]
+      },
+      "schema-revision": 4,
+      "element_order": [
+        [
+          "neutron-server"
+        ],
+        [
+          "neutron-l3"
+        ]
+      ],
+      "config": {
+        "transition_list": [
+
+        ],
+        "transitions": false,
+        "mode": "full",
+        "environment": "neutron-config-default"
+      }
+    }
+  },
+  "id": "bc-neutron-default",
+  "attributes": {
+    "neutron": {
+      "ssl": {
+        "cert_required": false,
+        "generate_certs": false,
+        "certfile": "/etc/neutron/ssl/certs/signing_cert.pem",
+        "keyfile": "/etc/neutron/ssl/private/signing_key.pem",
+        "ca_certs": "/etc/neutron/ssl/certs/ca.pem",
+        "insecure": false
+      },
+      "service_password": "294684075130",
+      "use_pip_cache": true,
+      "git_instance": "",
+      "use_gitbarclamp": true,
+      "use_syslog": false,
+      "keystone_instance": "default",
+      "networking_mode": "gre",
+      "rabbitmq_instance": "default",
+      "debug": false,
+      "networking_plugin": "openvswitch",
+      "database_instance": "default",
+      "git_refspec": "stable/havana",
+      "verbose": true,
+      "service_user": "neutron",
+      "gitrepo": "http://github.com/openstack/neutron.git",
+      "use_ml2": true,
+      "dhcp_domain": "openstack.local",
+      "db": {
+        "user": "neutron",
+        "database": "neutron"
+      },
+      "sql": {
+        "pool_timeout": 30,
+        "min_pool_size": 30,
+        "max_pool_overflow": 10
+      },
+      "api": {
+        "protocol": "http",
+        "service_host": "0.0.0.0",
+        "service_port": 9696
+      },
+      "pfs_deps": [
+        "libmysqlclient-dev",
+        "pip://setuptools-git",
+        "pip://distribute==0.6.28",
+        "pip://MySQL-python",
+        "pip://pyudev"
+      ],
+      "vmware": {
+        "user": "",
+        "password": "",
+        "l3_gw_uuid": "",
+        "tz_uuid": "",
+        "controllers": ""
+      },
+      "use_gitrepo": false,
+      "use_virtualenv": true
+    }
+  },
+  "description": "API-enabled, pluggable virtual network service for OpenStack"
+}

@@ -1,0 +1,188 @@
+{
+  "attributes": {
+    "nova": {
+      "verbose": true,
+      "database_instance": "default",
+      "scheduler": {
+        "cpu_allocation_ratio": 16.0,
+        "ram_allocation_ratio": 1.0
+      },
+      "libvirt_type": "kvm",
+      "glance_instance": "default",
+      "ssl": {
+        "certfile": "/etc/nova/ssl/certs/signing_cert.pem",
+        "ca_certs": "/etc/nova/ssl/certs/ca.pem",
+        "generate_certs": false,
+        "insecure": false,
+        "enabled": false,
+        "cert_required": false,
+        "keyfile": "/etc/nova/ssl/private/signing_key.pem"
+      },
+      "keystone_instance": "default",
+      "use_pip_cache": true,
+      "debug": false,
+      "novnc": {
+        "ssl": {
+          "certfile": "",
+          "enabled": false,
+          "keyfile": ""
+        }
+      },
+      "use_syslog": false,
+      "use_gitrepo": false,
+      "service_user": "nova",
+      "pfs_deps": [
+        "python-libvirt",
+        "python-routes",
+        "dnsmasq-base",
+        "dnsmasq-utils",
+        "kpartx",
+        "sysfsutils",
+        "parted",
+        "iputils-arping",
+        "kvm",
+        "gawk",
+        "iptables",
+        "ebtables",
+        "sqlite3",
+        "sudo",
+        "kvm",
+        "libvirt-bin",
+        "vlan",
+        "curl",
+        "socat",
+        "lvm2",
+        "open-iscsi",
+        "open-iscsi-utils",
+        "tgt",
+        "libmysqlclient-dev",
+        "pip://setuptools-git",
+        "pip://distribute==0.6.28",
+        "pip://MySQL-python",
+        "pip://python-novaclient"
+      ],
+      "use_virtualenv": true,
+      "service_password": "937663950303",
+      "gitrepo": "http://github.com/openstack/nova.git",
+      "use_shared_instance_storage": false,
+      "itxt_instance": "",
+      "vcenter": {
+        "password": "",
+        "datastore": "",
+        "interface": "vmnic0",
+        "clusters": [
+
+        ],
+        "user": "",
+        "host": ""
+      },
+      "trusted_flavors": false,
+      "git_refspec": "stable/havana",
+      "rabbitmq_instance": "default",
+      "git_instance": "",
+      "use_migration": false,
+      "neutron_metadata_proxy_shared_secret": "7ah3yqxqk2ff",
+      "use_gitbarclamp": true,
+      "rbd": {
+        "secret_uuid": "",
+        "user": ""
+      },
+      "cinder_instance": "default",
+      "kvm": {
+        "ksm_enabled": false
+      },
+      "db": {
+        "password": "rx4ur8xs8hgt",
+        "database": "nova",
+        "user": "nova"
+      },
+      "neutron_instance": "default",
+      "use_novnc": true
+    }
+  },
+  "deployment": {
+    "nova": {
+      "element_order": [
+        [
+          "nova-multi-controller"
+        ],
+        [
+          "nova-multi-compute-hyperv",
+          "nova-multi-compute-kvm",
+          "nova-multi-compute-qemu",
+          "nova-multi-compute-vmware",
+          "nova-multi-compute-xen"
+        ]
+      ],
+      "schema-revision": 6,
+      "elements": {
+        "nova-multi-compute-xen": [
+
+        ],
+        "nova-multi-controller": [
+          "REPLACE_ME"
+        ],
+        "nova-multi-compute-qemu": [
+          "REPLACE_ME"
+        ],
+        "nova-multi-compute-hyperv": [
+
+        ],
+        "nova-multi-compute-kvm": [
+
+        ]
+      },
+      "element_run_list_order": {
+        "nova-multi-compute-xen": 97,
+        "nova-multi-controller": 95,
+        "nova-multi-compute-qemu": 97,
+        "nova-multi-compute-hyperv": 97,
+        "nova-multi-compute-vmware": 97,
+        "nova-multi-compute-kvm": 97
+      },
+      "element_states": {
+        "nova-multi-compute-xen": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "nova-multi-controller": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "nova-multi-compute-qemu": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "nova-multi-compute-hyperv": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "nova-multi-compute-vmware": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "nova-multi-compute-kvm": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      },
+      "config": {
+        "mode": "full",
+        "transitions": false,
+        "environment": "nova-config-default",
+        "transition_list": [
+
+        ]
+      },
+      "crowbar-revision": 1
+    }
+  },
+  "id": "bc-nova-default",
+  "description": "installs and configures the Openstack Nova component. It relies upon the network and glance barclamps for normal operation."
+}

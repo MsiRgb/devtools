@@ -1,0 +1,150 @@
+{
+  "attributes": {
+    "cinder": {
+      "use_gitbarclamp": true,
+      "use_pip_cache": true,
+      "debug": false,
+      "use_virtualenv": true,
+      "gitrepo": "http://github.com/openstack/cinder.git",
+      "git_instance": "",
+      "use_syslog": false,
+      "rabbitmq_instance": "default",
+      "use_gitrepo": false,
+      "service_password": "114876891809",
+      "glance_instance": "default",
+      "volume": {
+        "cinder_raw_method": "first",
+        "rbd": {
+          "user": "volumes",
+          "pool": "volumes"
+        },
+        "volume_name": "cinder-volumes",
+        "local_file": "/var/lib/cinder/volume.raw",
+        "eqlx": {
+          "eqlx_chap_login": "chapadmin",
+          "eqlx_use_chap": false,
+          "eqlx_chap_password": "12345",
+          "san_ip": "192.168.124.11",
+          "eqlx_cli_timeout": 30,
+          "san_login": "grpadmin",
+          "san_thin_provision": false,
+          "san_password": "12345",
+          "eqlx_pool": "default",
+          "eqlx_group_name": "group-0"
+        },
+        "manual": {
+          "config": "",
+          "driver": ""
+        },
+        "local_size": 2000,
+        "emc": {
+          "ecom_server_ip": "192.168.124.11",
+          "ecom_server_password": "",
+          "emc_storage_type": "",
+          "ecom_server_username": "admin",
+          "masking_view": "",
+          "ecom_server_port": 0
+        },
+        "volume_type": "raw",
+        "netapp": {
+          "netapp_server_hostname": "192.168.124.11",
+          "netapp_volume_list": "",
+          "netapp_transport_type": "https",
+          "netapp_server_port": 443,
+          "nfs_shares": "",
+          "netapp_login": "admin",
+          "vserver": "",
+          "storage_family": "ontap_7mode",
+          "netapp_vfiler": "",
+          "netapp_password": "",
+          "storage_protocol": "iscsi"
+        }
+      },
+      "database_instance": "default",
+      "db": {
+        "database": "cinder",
+        "user": "cinder",
+        "password": ""
+      },
+      "git_refspec": "stable/havana",
+      "verbose": true,
+      "api": {
+        "bind_port": 8776,
+        "protocol": "http",
+        "bind_open_address": true
+      },
+      "pfs_deps": [
+        "kpartx",
+        "parted",
+        "gawk",
+        "sqlite3",
+        "sudo",
+        "lvm2",
+        "open-iscsi",
+        "open-iscsi-utils",
+        "tgt",
+        "pip://distribute>=0.6.28",
+        "pip://MySQL-python",
+        "pip://python-cinderclient>=1.0.5"
+      ],
+      "keystone_instance": "default",
+      "service_user": "cinder",
+      "ssl": {
+        "keyfile": "/etc/cinder/ssl/private/signing_key.pem",
+        "insecure": false,
+        "generate_certs": false,
+        "cert_required": false,
+        "certfile": "/etc/cinder/ssl/certs/signing_cert.pem",
+        "ca_certs": "/etc/cinder/ssl/certs/ca.pem"
+      }
+    }
+  },
+  "deployment": {
+    "cinder": {
+      "element_run_list_order": {
+        "cinder-controller": 92,
+        "cinder-volume": 93
+      },
+      "config": {
+        "mode": "full",
+        "transitions": false,
+        "environment": "cinder-config-default",
+        "transition_list": [
+
+        ]
+      },
+      "schema-revision": 5,
+      "crowbar-revision": 1,
+      "element_states": {
+        "cinder-controller": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "cinder-volume": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      },
+      "element_order": [
+        [
+          "cinder-controller"
+        ],
+        [
+          "cinder-volume"
+        ]
+      ],
+      "elements": {
+      	"cinder-volume": [
+      	  "REPLACE_ME"
+      	],
+      	"cinder-controller": [
+      	  "REPLACE_ME"
+      	]
+      }
+    }
+  },
+  "id": "bc-cinder-default",
+  "description": "Installation for Cinder"
+}

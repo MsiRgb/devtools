@@ -1,0 +1,42 @@
+{
+  "deployment": {
+    "rabbitmq": {
+      "element_states": {
+        "rabbitmq-server": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      },
+      "element_order": [
+        [
+          "rabbitmq-server"
+        ]
+      ],
+      "crowbar-revision": 1,
+      "config": {
+        "mode": "full",
+        "environment": "rabbitmq-config-default",
+        "transitions": false,
+        "transition_list": [
+
+        ]
+      },
+      "elements": {
+        "rabbitmq-server": [
+          "REPLACE_ME"
+        ]
+      }
+    }
+  },
+  "id": "bc-rabbitmq-default",
+  "description": "Installation for rabbitmq",
+  "attributes": {
+    "rabbitmq": {
+      "password": "",
+      "vhost": "/nova",
+      "port": 5672,
+      "user": "nova"
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "description": "Glance service (image registry and delivery service) for the cloud",
+  "id": "bc-glance-default",
+  "deployment": {
+    "glance": {
+      "config": {
+        "transitions": false,
+        "transition_list": [
+
+        ],
+        "mode": "full",
+        "environment": "glance-config-default"
+      },
+      "crowbar-revision": 1,
+      "elements": {
+        "glance-server": [
+          "REPLACE_ME"
+         ]
+      },
+      "element_states": {
+        "glance-server": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      },
+      "element_order": [
+        [
+          "glance-server"
+        ]
+      ],
+      "schema-revision": 3
+    }
+  },
+  "attributes": {
+    "glance": {
+      "git_instance": "",
+      "debug": false,
+      "service_password": "599947184529",
+      "use_gitbarclamp": true,
+      "verbose": true,
+      "service_user": "glance",
+      "gitrepo": "http://github.com/openstack/glance.git",
+      "swift": {
+        "store_container": "glance",
+        "store_create_container_on_put": true
+      },
+      "use_cachemanagement": false,
+      "image_cache_max_size": 10737418240,
+      "default_store": "file",
+      "registry": {
+        "bind_port": 9191
+      },
+      "sql_idle_timeout": 3600,
+      "ssl": {
+        "cert_required": false,
+        "insecure": false,
+        "certfile": "/etc/glance/ssl/certs/signing_cert.pem",
+        "keyfile": "/etc/glance/ssl/private/signing_key.pem",
+        "ca_certs": "/etc/glance/ssl/certs/ca.pem",
+        "generate_certs": false
+      },
+      "pfs_deps": [
+        "pip://python-swiftclient>=1,<2",
+        "pip://python-glanceclient"
+      ],
+      "notifier_strategy": "rabbit",
+      "git_refspec": "stable/havana",
+      "image_cache_datadir": "/var/lib/glance/image-cache",
+      "api": {
+        "protocol": "http",
+        "bind_open_address": true,
+        "bind_port": 9292
+      },
+      "filesystem_store_datadir": "/var/lib/glance/images",
+      "keystone_instance": "default",
+      "use_pip_cache": true,
+      "enable_caching": false,
+      "use_syslog": false,
+      "rabbitmq_instance": "default",
+      "use_gitrepo": false,
+      "database_instance": "default",
+      "image_cache_grace_period": 3600,
+      "use_virtualenv": true,
+      "image_cache_stall_timeout": 86400,
+      "rbd": {
+        "store_pool": "images",
+        "store_ceph_conf": "/etc/ceph/ceph.conf",
+        "store_user": "glance"
+      },
+      "images": [
+        "http://|ADMINWEB|/files/ami/ubuntu-12.04-server-cloudimg-amd64.tar.gz"
+      ]
+    }
+  }
+}

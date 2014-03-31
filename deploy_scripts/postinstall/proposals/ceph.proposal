@@ -1,0 +1,62 @@
+{
+  "id": "bc-ceph-default",
+  "description": "Distributed object store and file system",
+  "deployment": {
+    "ceph": {
+      "schema-revision": 1,
+      "element_states": {
+        "ceph-osd": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "ceph-mon": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      },
+      "element_order": [
+        [
+          "ceph-mon"
+        ],
+        [
+          "ceph-osd"
+        ]
+      ],
+      "crowbar-revision": 1,
+      "config": {
+        "environment": "ceph-config-default",
+        "transition_list": [
+
+        ],
+        "mode": "full",
+        "transitions": false
+      },
+      "element_run_list_order": {
+        "ceph-osd": 81,
+        "ceph-mon": 80
+      },
+      "elements": {
+        "ceph-osd": [
+
+        ],
+        "ceph-mon": [
+
+        ]
+      }
+    }
+  },
+  "attributes": {
+    "ceph": {
+      "clustername": "ceph",
+      "disk_mode": "first",
+      "admin-secret": "AQAkTzBSmGKZFhAATjC+lKfxOxL1Wn+rgwbWpg==",
+      "config": {
+        "public-network": "192.168.124.0/24",
+        "fsid": "11dd315a-2cab-4130-a760-b285324ef622"
+      },
+      "monitor-secret": "AQAkTzBSQIGsLRAATtjTpJ1RgdviJz1S0byJBA=="
+    }
+  }
+}

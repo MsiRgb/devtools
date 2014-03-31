@@ -1,0 +1,74 @@
+{
+  "id": "bc-nova_dashboard-default",
+  "description": "User Interface for OpenStack projects (code name Horizon)",
+  "deployment": {
+    "nova_dashboard": {
+      "config": {
+        "transition_list": [
+
+        ],
+        "environment": "nova_dashboard-config-default",
+        "mode": "full",
+        "transitions": false
+      },
+      "element_order": [
+        [
+          "nova_dashboard-server"
+        ]
+      ],
+      "schema-revision": 3,
+      "crowbar-revision": 1,
+      "elements": {
+        "nova_dashboard-server": [
+          "REPLACE_ME"
+        ]
+      },
+      "element_states": {
+        "nova_dashboard-server": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      }
+    }
+  },
+  "attributes": {
+    "nova_dashboard": {
+      "external_monitoring": {
+      },
+      "git_instance": "",
+      "use_gitrepo": false,
+      "nova_instance": "default",
+      "apache": {
+        "ssl_key_file": "/etc/apache2/ssl.key/openstack-dashboard-server.key",
+        "ssl": false,
+        "ssl_crt_file": "/etc/apache2/ssl.crt/openstack-dashboard-server.crt",
+        "ssl_crt_chain_file": ""
+      },
+      "use_virtualenv": true,
+      "session_timeout": 1440,
+      "database_instance": "default",
+      "use_gitbarclamp": true,
+      "git_refspec": "stable/havana",
+      "password_validator": {
+        "regex": ".{8,}",
+        "help_text": "Your password must be at least 8 characters long."
+      },
+      "pfs_deps": [
+        "apache2",
+        "libapache2-mod-wsgi",
+        "pip://setuptools-git",
+        "pip://distribute>=0.6.28",
+        "pip://MySQL-python",
+        "pip://python-memcached",
+        "pip://ply",
+        "pip://lesscpy"
+      ],
+      "keystone_instance": "default",
+      "gitrepo": "http://github.com/openstack/horizon.git",
+      "use_pip_cache": true,
+      "debug": false,
+      "site_branding": "OpenStack Dashboard"
+    }
+  }
+}

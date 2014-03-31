@@ -1,0 +1,45 @@
+{
+  "deployment": {
+    "database": {
+      "elements": {
+        "database-server": [
+	   "REPLACE_ME"
+        ]
+      },
+      "config": {
+        "transitions": false,
+        "environment": "database-config-default",
+        "mode": "full",
+        "transition_list": [
+
+        ]
+      },
+      "crowbar-revision": 1,
+      "element_order": [
+        [
+          "database-server"
+        ]
+      ],
+      "element_states": {
+        "database-server": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      }
+    }
+  },
+  "attributes": {
+    "database": {
+      "sql_engine": "mysql",
+      "postgresql": {
+        "max_connections": 1000
+      },
+      "mysql": {
+        "datadir": "/var/lib/mysql"
+      }
+    }
+  },
+  "id": "bc-database-default",
+  "description": "Installation for Database"
+}

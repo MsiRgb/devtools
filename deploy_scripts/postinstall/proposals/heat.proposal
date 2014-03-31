@@ -1,0 +1,73 @@
+{
+  "description": "Installation for Heat",
+  "id": "bc-heat-default",
+  "deployment": {
+    "heat": {
+      "elements": {
+        "heat-server": [
+          "REPLACE_ME"
+        ]
+      },
+      "crowbar-revision": 1,
+      "config": {
+        "environment": "heat-config-default",
+        "mode": "full",
+        "transition_list": [
+
+        ],
+        "transitions": false
+      },
+      "element_states": {
+        "heat-server": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      },
+      "element_order": [
+        [
+          "heat-server"
+        ]
+      ],
+      "element_run_list_order": {
+        "heat-server": 101
+      }
+    }
+  },
+  "attributes": {
+    "heat": {
+      "database_instance": "default",
+      "debug": false,
+      "use_virtualenv": false,
+      "keystone_service_user": "heat",
+      "rabbitmq_instance": "default",
+      "pfs_deps": [
+        "pip://python-heatclient",
+        "pip://setuptools-git",
+        "pip://distribute>=0.6.28",
+        "pip://MySQL-python"
+      ],
+      "gitrepo": "http://github.com/openstack/heat.git",
+      "db": {
+        "database": "heat",
+        "password": "",
+        "user": "heat"
+      },
+      "keystone_service_password": "892752701000",
+      "use_gitrepo": false,
+      "git_instance": "",
+      "keystone_instance": "default",
+      "api": {
+        "cw_port": 8003,
+        "engine_port": 8001,
+        "protocol": "http",
+        "cfn_port": 8000,
+        "port": 8004
+      },
+      "verbose": true,
+      "use_gitbarclamp": false,
+      "git_refspec": "stable/havana",
+      "use_pip_cache": false
+    }
+  }
+}
