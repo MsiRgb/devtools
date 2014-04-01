@@ -1,0 +1,107 @@
+{
+  "description": "Created on Mon, 31 Mar 2014 23:12:33 -0500",
+  "deployment": {
+    "ceilometer": {
+      "element_run_list_order": {
+        "ceilometer-swift-proxy-middleware": 80,
+        "ceilometer-cagent": 102,
+        "ceilometer-agent": 103,
+        "ceilometer-server": 101
+      },
+      "element_states": {
+        "ceilometer-swift-proxy-middleware": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "ceilometer-cagent": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "ceilometer-agent": [
+          "readying",
+          "ready",
+          "applying"
+        ],
+        "ceilometer-server": [
+          "readying",
+          "ready",
+          "applying"
+        ]
+      },
+      "element_order": [
+        [
+          "ceilometer-server"
+        ],
+        [
+          "ceilometer-cagent"
+        ],
+        [
+          "ceilometer-agent"
+        ],
+        [
+          "ceilometer-swift-proxy-middleware"
+        ]
+      ],
+      "config": {
+        "transitions": false,
+        "mode": "full",
+        "environment": "ceilometer-config-proposal",
+        "transition_list": [
+
+        ]
+      },
+      "schema-revision": 3,
+      "crowbar-revision": 3,
+      "elements": {
+        "ceilometer-swift-proxy-middleware": [
+        ],
+        "ceilometer-cagent": [
+          "d52-54-00-d4-d6-74.rgbnetworks.com"
+        ],
+        "ceilometer-agent": [
+        ],
+        "ceilometer-server": [
+          "d52-54-00-d4-d6-74.rgbnetworks.com"
+        ]
+      }
+    }
+  },
+  "id": "bc-ceilometer-proposal",
+  "attributes": {
+    "ceilometer": {
+      "database_instance": "default",
+      "verbose": true,
+      "pfs_deps": [
+        "gawk",
+        "sqlite3",
+        "sudo"
+      ],
+      "meters_interval": 600,
+      "cpu_interval": 600,
+      "git_instance": "",
+      "keystone_service_password": "402591822623",
+      "gitrepo": "http://github.com/openstack/ceilometer.git",
+      "keystone_instance": "default",
+      "use_gitrepo": false,
+      "use_mongodb": true,
+      "keystone_service_user": "ceilometer",
+      "use_pip_cache": true,
+      "git_refspec": "stable/havana",
+      "db": {
+        "user": "ceilometer",
+        "password": "",
+        "database": "ceilometer"
+      },
+      "rabbitmq_instance": "default",
+      "debug": false,
+      "use_virtualenv": true,
+      "use_gitbarclamp": true,
+      "api": {
+        "port": 8777,
+        "protocol": "http"
+      }
+    }
+  }
+}

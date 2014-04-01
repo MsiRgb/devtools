@@ -419,6 +419,7 @@ EOF
 
 	# Transfer the proposals to Crowbar
 	echo "`date +%m%d%Y-%H%M%Z`- Creating /var/tmp/proposal_temp directory on Crowbar"
+	$SSH_CMD $CROWBAR_USER $CROWBAR_IP rm -rf $PROPOSAL_TMP_PATH
 	$SSH_CMD $CROWBAR_USER $CROWBAR_IP mkdir $PROPOSAL_TMP_PATH || exit
 	echo "`date +%m%d%Y-%H%M%Z`- Decompressing proposals"
 	$SSH_CMD $CROWBAR_USER $CROWBAR_IP tar -xvf /home/crowbar/proposals.tar -C $PROPOSAL_TMP_PATH || exit

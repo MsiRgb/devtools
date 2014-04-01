@@ -106,7 +106,7 @@
         "database": "keystone",
         "user": "keystone"
       },
-      "frontend": "uwsgi",
+      "frontend": "apache",
       "admin": {
         "tenant": "admin",
         "username": "admin",
