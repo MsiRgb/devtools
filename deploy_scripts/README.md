@@ -6,7 +6,7 @@ This repository houses a set of files required for building the AIO ISO.
 - cd devtools/deploy_scripts
 
 ## To build the underlying Crowbar ISO:
-First, follow the steps laid out at https://github.com/crowbar/crowbar/wiki/Build-Crowbar.ISO to build the crowbar ISO. The only exceptions to that process are to clone the crowbar project from githug.com/MsiRgb/crowbar repo and you don't need, necessarily, to build sledgehammer separately.
+First, follow the steps laid out at https://github.com/crowbar/crowbar/wiki/Build-Crowbar.ISO to build the roxy/openstack-os-build crowbar ISO. The only exceptions to that process are to clone the crowbar project from githug.com/MsiRgb/crowbar repo and you don't need, necessarily, to build sledgehammer separately.
 
 ##For the custom RGB ISO:
 The relevant pieces of syslinux.cfg needs to be updated to point to the media type file used (e.g., in the case of ISO – isolinux.cfg).
