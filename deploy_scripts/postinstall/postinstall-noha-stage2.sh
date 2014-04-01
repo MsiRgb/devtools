@@ -62,7 +62,7 @@ provision_crowbar() {
 #--disk path=/var/lib/libvirt/images/$VMNAME.qcow2,size=15,format=qcow2,bus=ide,cache=none --network=bridge:br0,model=virtio \
 #--accelerate --vnc --noautoconsole --keymap=en-us --cdrom=/var/lib/libvirt/images/$CROWBAR_ISO"
         local DEPLOYCMD="virt-install --connect qemu:///system --name $VMNAME --ram=6144 --vcpus=1 --os-type=linux \
---disk path=/var/lib/libvirt/images/$VMNAME.qcow2,size=15,format=qcow2,bus=ide,cache=none --network=bridge:br0, \
+--disk path=/var/lib/libvirt/images/$VMNAME.qcow2,size=24,format=qcow2,bus=ide,cache=none --network=bridge:br0, \
 --accelerate --vnc --noautoconsole --keymap=en-us --cdrom=/var/lib/libvirt/images/$CROWBAR_ISO"
 
 	echo "Creating the vm called $VMNAME"
