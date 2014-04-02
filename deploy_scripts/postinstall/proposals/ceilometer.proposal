@@ -58,12 +58,12 @@
         "ceilometer-swift-proxy-middleware": [
         ],
         "ceilometer-cagent": [
-          "d52-54-00-d4-d6-74.rgbnetworks.com"
+          "REPLACE_ME"
         ],
         "ceilometer-agent": [
         ],
         "ceilometer-server": [
-          "d52-54-00-d4-d6-74.rgbnetworks.com"
+          "REPLACE_ME"
         ]
       }
     }
