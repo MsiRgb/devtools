@@ -7,21 +7,27 @@ This repository houses a set of files required for building the AIO ISO.
 
 ## To build the underlying Crowbar ISO:
 Fix a few things on your machine first:
-  1) apt-get remove python-pip
-  2) wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
-  3) sudo python get-pip.py
-  4) sudo apt-get install cabextract
-  5) sudo apt-get install libxml-ruby
+1. apt-get remove python-pip
+2. wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+3. sudo python get-pip.py
+4. sudo apt-get install cabextract
+5. sudo apt-get install libxml-ruby
+
 Continue with the official ISO build instructions for the 1.x roxy/openstack-os-build release:
   http://crowbar.github.io/docs/build-crowbar.html
 
 ##For the custom RGB ISO:
-  1) Clone the msirgb devtools repo:
-    git clone https://github.com/MsiRgb/devtools.git
-  2) Extract the ubuntu 12.04 LTS cd to a directory (this will be your build_dir)
-    mount -o loop /dev/cdrom /mnt
-    rsync -av /mnt/ ~/build_dir/
-  3) Run the build script with the appropriate parameters
+1. Clone the msirgb devtools repo:
+'''
+git clone https://github.com/MsiRgb/devtools.git
+'''
+2. Extract the ubuntu 12.04 LTS cd to a directory (this will be your build_dir)
+'''
+mount -o loop /dev/cdrom /mnt
+'''
+rsync -av /mnt/ ~/build_dir/
+'''
+3. Run the build script with the appropriate parameters
     Usage: ./build_aio_iso.sh <-o output_file> <-c crowbar.iso> <-b build_directory> <-p postinstall_src_dir>
            *** Note: Please extract a copy of the Ubuntu12.04.4 disc to what will become the build_directory
     -o output_file          - Location to write the output AIO ISO to
