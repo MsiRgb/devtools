@@ -18,13 +18,12 @@ bash postinstall-noha-stage2.sh
 
 # stage3
 for (( i=10; i > 0; i-- )) ; do
-	
-	bash postinstall-noha-stage3.sh
-	./script.sh 1
+  bash postinstall-noha-stage3.sh && break
+done
+
 if [ $? == 1 ]; then
   echo "---- script.sh exited with failure!"
 else
   echo "++++ script.sh exited with success!"
 fi
-done
-  
+
