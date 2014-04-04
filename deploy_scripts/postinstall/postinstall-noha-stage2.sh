@@ -32,7 +32,7 @@ TARGET_FQDN=""
 MACHINE=""
 CROWBAR_GUI_PORT="3000"
 SSH_PORT="22"
-CROWBAR_ISO="crowbar.iso"
+CROWBAR_ISO="inner.iso"
 
 POSTINSTALL_PATH="/var/tmp/postinstall"
 

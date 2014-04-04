@@ -2,7 +2,7 @@
 
 print_usage()
 {
-  echo "Usage: $0 <-o output_file> <-c crowbar.iso> <-b build_directory> <-p postinstall_src_dir>"
+  echo "Usage: $0 <-o output_file> <-c crowbar/fuel iso> <-b build_directory> <-p postinstall_src_dir>"
   echo "  *** Note: Please extract a copy of the Ubuntu12.04.4 disc to what will become the build_directory"
 }
 
@@ -50,7 +50,7 @@ if [[ -z $output_file || -z $crowbar_iso || -z $build_dir || -z $postinstall_src
   exit 1
 fi
 
-echo "Building AIO iso: $output_file from crowbar iso: $crowbar_iso and postinstall files from: $postinstall_src_dir in build directory: $build_dir"
+echo "Building AIO iso: $output_file from crowbar/fuel iso: $crowbar_iso and postinstall files from: $postinstall_src_dir in build directory: $build_dir"
 
 # Open up perms on build_dir
 chmod -R ug+rw $build_dir
@@ -59,7 +59,7 @@ chmod -R ug+rw $build_dir
 mkdir -p $build_dir/postinstall
 
 # Copy crowbar iso to build dir
-rsync -av $crowbar_iso $build_dir/postinstall/crowbar.iso  || { echo "Failed to copy crowbar iso" ; exit 1; }
+rsync -av $crowbar_iso $build_dir/postinstall/inner.iso  || { echo "Failed to copy crowbar/fuel iso" ; exit 1; }
 
 # Copy over postinstall stuff
 rsync -av $postinstall_src_dir $build_dir/postinstall/ || { echo "Failed to copy postinstall directory" ; exit 1; }

@@ -105,7 +105,7 @@ config_kvm() {
 ####
 copy_crowbar_iso() {
 
-  echo "Copy the crowbar.iso to somewhere qemu can access it"
+  echo "Copy the inner.iso to somewhere qemu can access it"
   cp -v $POSTINSTALL_PATH/$CROWBAR_ISO /var/lib/libvirt/images/
 
   echo "Make sure that qemu owns the images directory"

@@ -30,10 +30,10 @@ Continue with the official ISO build instructions for the 1.x roxy/openstack-os-
 
 3. Run the build script with the appropriate parameters:
 
-  Usage: ./build_aio_iso.sh <-o output_file> <-c crowbar.iso> <-b build_directory> <-p postinstall_src_dir>  
+  Usage: ./build_aio_iso.sh <-o output_file> <-c crowbar/fuel iso> <-b build_directory> <-p postinstall_src_dir>  
   *** Note: Please extract a copy of the Ubuntu12.04.4 disc to what will become the build_directory  
    -o output_file          - Location to write the output AIO ISO to  
-   -c crowbar.iso          - Location of the Crowbar ISO you built  
+   -c crowbar/fuel iso     - Location of the Crowbar ISO you built  
    -b build_directory      - Location of the extracted Ubuntu 12.04 LTS CD  
    -p postinstall_src_dir  - Location of your postinstall scripts (cloned with the devtools repo)
 
