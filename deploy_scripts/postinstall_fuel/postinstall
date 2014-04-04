@@ -46,6 +46,8 @@ iface ${brName} inet static
   bridge_stp      off
 
 BRSETUP
+
+  ifup ${brName}
 }
 
 create_bridge brpublic 192.168.124.5 255.255.255.0 eth0
