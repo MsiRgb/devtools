@@ -3,6 +3,14 @@
 # Check if the fuel-admin VM is running
 # If not, create it and boot it with the /var/tmp/postinstall/inner.iso
 
+exec 1>/var/log/postinstall.log 2>&1
+
+echo "Installing sshpass"
+dpkg -i /var/tmp/postinstall/repo/sshpass_1.05-1_amd64.deb
+
+echo "Installing virt-install"
+dpkg -i /var/tmp/postinstall/repo/virtinst_0.600.1-1ubuntu3_all.deb
+
 if $(virsh list --all | grep fuel-admin); then
   echo "fuel-admin VM is already running!"
   exit 1
@@ -13,7 +21,7 @@ fuelIso="/var/lib/libvirt/images/inner.iso"
 # Create bridges 
 create_bridge()
 {
-  netCfgFile=/tmp/interfaces
+  netCfgFile=/etc/network/interfaces
   brName=$1
   shift
   brIp=$1
@@ -40,9 +48,10 @@ iface ${brName} inet static
 BRSETUP
 }
 
-create_bridge br1 172.6.0.2   255.255.255.0 eth0
-create_bridge br2 10.0.0.0    255.255.0.0 none
-create_bridge br3 192.168.1.0 255.255.255.0 none
+create_bridge brpublic 192.168.124.5 255.255.255.0 eth0
+create_bridge br1      172.6.0.2     255.255.255.0 none
+create_bridge br2      10.0.0.0      255.255.0.0 none
+create_bridge br3      192.168.1.0   255.255.255.0 none
 
 exit $?
 
