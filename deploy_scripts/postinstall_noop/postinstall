@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Do nothing, return success
+return 0
