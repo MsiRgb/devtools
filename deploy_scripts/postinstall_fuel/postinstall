@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Check if the fuel-admin VM is running
+# If not, create it and boot it with the /var/tmp/postinstall/inner.iso
+
+if $(virsh list --all | grep fuel-admin); then
+  echo "fuel-admin VM is already running!"
+  exit 1
+fi
+
+fuelIso="/var/lib/libvirt/images/inner.iso"
+
+# Create bridges 
+create_bridge()
+{
+  netCfgFile=/tmp/interfaces
+  brName=$1
+  shift
+  brIp=$1
+  shift
+  brMask=$1
+  shift
+  brPorts=$1
+  shift
+  
+  if $(grep $brName $netCfgFile >& /dev/null); then
+    return 1
+  fi
+
+  cat >> $netCfgFile <<BRSETUP
+
+auto ${brName}
+iface ${brName} inet static
+  address ${brIp}
+  netmask ${brMask}
+  bridge_ports    ${brPorts}
+  bridge_fd       0
+  bridge_stp      off
+
+BRSETUP
+}
+
+create_bridge br1 172.6.0.2   255.255.255.0 eth0
+create_bridge br2 10.0.0.0    255.255.0.0 none
+create_bridge br3 192.168.1.0 255.255.255.0 none
+
+exit $?
+
+# Stage the inner.iso where the VM can access it
+cp /var/tmp/postinstall/inner.iso $fuelIso
+
+# Provision a VM for the fuel-admin node
+virt-install --connect qemu:///system --name 'fuel-admin' --ram=4096 --vcpus=1 --os-type=linux \
+  --disk path='/var/lib/libvirt/images/fuel-admin.qcow2',size=30,format=qcow2,bus=ide,cache=none --network=bridge:br1 \
+  --network=bridge:br2 --network=bridge:br3 --accelerate --vnc --noautoconsole --keymap=en-us --pxe \
+  --boot=network,hd --cdrom=${fuelIso}
+
+exit $?
+
