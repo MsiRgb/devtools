@@ -11,6 +11,15 @@ dpkg -i /var/tmp/postinstall/repo/sshpass_1.05-1_amd64.deb
 echo "Installing virt-install"
 dpkg -i /var/tmp/postinstall/repo/virtinst_0.600.1-1ubuntu3_all.deb
 
+echo "Installing python-requests"
+dpkg -i /var/tmp/postinstall/repo/python-requests_0.8.2-1_all.deb
+
+echo "Installing python-markupsafe"
+dpkg -i /var/tmp/postinstall/repo/python-markupsafe_0.15-1_amd64.deb
+
+echo "Installing python-jinja2"
+dpkg -i /var/tmp/postinstall/repo/python-jinja2_2.6-1_amd64.deb
+
 if $(virsh list --all | grep fuel-admin); then
   echo "fuel-admin VM is already running!"
   exit 1
@@ -55,16 +64,16 @@ create_bridge br1      172.6.0.2     255.255.255.0 none
 create_bridge br2      10.0.0.0      255.255.0.0 none
 create_bridge br3      192.168.1.0   255.255.255.0 none
 
-exit $?
-
 # Stage the inner.iso where the VM can access it
-cp /var/tmp/postinstall/inner.iso $fuelIso
+rsync -av /var/tmp/postinstall/inner.iso $fuelIso
 
-# Provision a VM for the fuel-admin node
-virt-install --connect qemu:///system --name 'fuel-admin' --ram=4096 --vcpus=1 --os-type=linux \
-  --disk path='/var/lib/libvirt/images/fuel-admin.qcow2',size=30,format=qcow2,bus=ide,cache=none --network=bridge:br1 \
-  --network=bridge:br2 --network=bridge:br3 --accelerate --vnc --noautoconsole --keymap=en-us --pxe \
-  --boot=network,hd --cdrom=${fuelIso}
+if ! $(virsh list --all | grep fuel-admin); then
+  # Provision a VM for the fuel-admin node
+  virt-install --connect qemu:///system --name 'fuel-admin' --ram=4096 --vcpus=1 --os-type=linux \
+    --disk path='/var/lib/libvirt/images/fuel-admin.qcow2',size=30,format=qcow2,bus=ide,cache=none --network=bridge:br1 \
+    --network=bridge:br2 --network=bridge:br3 --accelerate --vnc --noautoconsole --keymap=en-us \
+    --boot=cdrom,hd --cdrom=${fuelIso}
+fi
 
 exit $?
 
