@@ -1,0 +1,78 @@
+---
+fuel-server-api-url: http://10.20.0.2:8000/api/v1
+
+environments:
+  - name: HADeployment
+    nodes:
+      - name: Controller1
+        roles: controller,ceph-osd
+      - name: Controller2
+        roles: controller,ceph-osd
+      - name: Controller3
+        roles: controller,ceph-sd
+      - name: Compute1
+        roles: compute
+      - name: Compute2
+        roles: compute
+      - name: Compute3
+        roles: compute
+    release: 2
+    net-provider: neutron
+    net-segment-type: vlan
+    mode: ha_compact
+  
+vms:
+  - name: Controller1
+    nics: [ 'br1','br2','br3' ]
+    type: kvm
+    hdd-size: 30G
+    cpus: 4
+    memory: 10485760 
+    mac: ??:??:??:??:??:??
+  - name: Controller2
+    nics: [ 'br1','br2','br3' ]
+    type: kvm
+    hdd-size: 30G
+    cpus: 4
+    memory: 10485760
+    mac: ??:??:??:??:??:??
+  - name: Controller3
+    nics: [ 'br1','br2','br3' ]
+    type: kvm
+    hdd-size: 30G
+    cpus: 4
+    memory: 10485760
+    mac: ??:??:??:??:??:??
+  - name: Compute1
+    nics: [ 'br1','br2','br3' ]
+    type: kvm
+    hdd-size: 30G
+    cpus: 4
+    memory: 10485760
+    mac: ??:??:??:??:??:??
+  - name: Compute2
+    nics: [ 'br1','br2','br3' ]
+    type: kvm
+    hdd-size: 30G
+    cpus: 4
+    memory: 10485760
+    mac: ??:??:??:??:??:??
+  - name: Compute3
+    nics: [ 'br1','br2','br3' ]
+    type: kvm
+    hdd-size: 30G
+    cpus: 4
+    memory: 10485760
+    mac: ??:??:??:??:??:??
+
+    
+fuel-admin:
+  name: FuelAdmin
+  nics: [ 'br1','br2','br3' ]
+  type: kvm
+  hdd-size: 30G
+  cpus: 4
+  memory: 4000000 
+  cdrom-iso: /var/lib/libvirt/images/inner.iso
+  xml-template: /var/tmp/postinstall/lib/templates/create_vm_fuel.xml
+
