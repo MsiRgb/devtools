@@ -76,24 +76,14 @@ BRSETUP
 }
 
 create_bridge brpublic 192.168.124.5 255.255.255.0 eth0
-create_bridge br1      172.6.0.2     255.255.255.0 none
-create_bridge br2      10.0.0.0      255.255.0.0 none
-create_bridge br3      192.168.1.0   255.255.255.0 none
+create_bridge br1      10.20.0.1     255.255.255.0 none
+create_bridge br2      10.20.1.1     255.255.255.0 none
+create_bridge br3      10.20.2.1     255.255.255.0 none
 
 # Stage the inner.iso where the VM can access it
 rsync -av /var/tmp/postinstall/inner.iso $fuelIso
 
-if ! $(virsh list --all | grep fuel-admin); then
-  # Provision a VM for the fuel-admin node
-  virt-install --connect qemu:///system --name 'fuel-admin' --ram=4096 --vcpus=1 --os-type=linux \
-    --disk path='/var/lib/libvirt/images/fuel-admin.qcow2',size=30,format=qcow2,bus=ide,cache=none --network=bridge:br1 \
-    --network=bridge:br2 --network=bridge:br3 --accelerate --vnc --noautoconsole --keymap=en-us \
-    --boot=cdrom,hd --cdrom=${fuelIso}
-fi
-
-monitor_tcp_port $FUEL_IP_ADDR $FUEL_PORT
-
-python /var/tmp/postinstall/PostInstallConfigurator.py --config /var/tmp/postinstall/aio.yml --log-file /var/log/postinstallconfigurator.log --debug-level DEBUG --delete-existing-envs --deploy-environment
+python /var/tmp/postinstall/PostInstallConfigurator.py --config /var/tmp/postinstall/aio.yml --log-file /var/log/postinstallconfigurator.log --debug-level DEBUG --delete-existing-envs --deploy-environment --build-fuel-admin-server
 
 exit $?
 

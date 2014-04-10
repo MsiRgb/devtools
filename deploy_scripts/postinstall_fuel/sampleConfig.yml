@@ -1,0 +1,36 @@
+---
+fuel-server-api-url: http://10.20.0.2:8000/api/v1
+
+environments:
+  - name: test env 1
+    nodes:
+      - name: testvm1
+        roles: controller
+      - name: testvm2
+        roles: compute
+    release: 2
+    net-provider: nova_network
+    net-segment-type: gre
+    mode: multinode
+  
+#  - name: test env 2
+#    nodes: []
+#    release: 2
+#    net-provider: nova_network
+#    net-segment-type: gre
+#    mode: ha_compact
+
+vms:
+  - name: testvm1
+    nics: [ 'br0','br1','br2' ]
+    type: qemu
+    hdd-size: 30G
+    cpus: 1
+    # Do not create VM if mac specified
+    #mac: ab:cd:ef:12:34:56 
+  - name: testvm2
+    nics: [ 'br0','br1','br2' ]
+    type: qemu
+    hdd-size: 30G
+    cpus: 1
+    
