@@ -153,7 +153,17 @@ class PostInstallConfigurator():
     # Deploy environment if we are configured to
     if self._args['deploy_environment']:
       self._fuelInterface.deployEnv(self._fuelInterface.getEnvIdByName(env['name']))
+
+    # Wait until environment finishes deploying
+    while not self._fuelInterface.envDoneDeploying(self._fuelInterface.getEnvIdByName(env['name'])):
+      logging.info("Waiting 60s for environment to finish deploying...")
+      sleep(60)
     
+    # Load any host aggregates configured in the YAML file
+    for hostAggregate in self._fuelConfig.getHostAggregates():
+      logging.info("Adding host aggregate: %s" % (hostAggregate))
+      pass
+
 if __name__ == "__main__":
   pic = PostInstallConfigurator()
   pic.run()

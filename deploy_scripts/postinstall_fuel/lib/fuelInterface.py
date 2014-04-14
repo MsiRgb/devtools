@@ -84,6 +84,12 @@ class FuelInterface():
     if retVal['status'] == 'error':
       logging.info("Error deploying environment %s: %s" % (envId, retVal['message']))
     return retVal
+  
+  def envDoneDeploying(self, envId):
+    for currEnv in self._fuelInterface.listEnvs():
+      if currEnv['id'] == envId:
+        return currEnv['status'] == "operational"
+    return False
     
 if __name__ == "__main__":
   import os

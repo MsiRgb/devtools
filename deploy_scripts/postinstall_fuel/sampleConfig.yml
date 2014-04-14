@@ -34,3 +34,9 @@ vms:
     hdd-size: 30G
     cpus: 1
     
+host-aggregates:
+  - name: test-aggregate
+    availability-zone: nova
+    hosts:
+      - host: ControllerVM
+      - host: ComputeVM
