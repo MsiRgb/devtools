@@ -52,7 +52,7 @@ class FuelInterface():
     for node in nodeList:
       if node['cluster'] == envId:
         retVal.append(node)
-    return retVal    
+    return retVal
     
   def getUnallocatedNodes(self):
     logging.info("Getting list of unallocated nodes")
@@ -91,6 +91,13 @@ class FuelInterface():
       if currEnv['id'] == envId:
         return currEnv['status'] == "operational"
     return False
+  
+  def getControllerNodeIPAddress(self, envId):
+    logging.info("Looking for first controller node in env: %s" % envId)
+    for node in self.getNodesByEnvId(envId):
+      if "controller" in node['roles']:
+        return node['ip']
+    return None
     
 if __name__ == "__main__":
   import os
@@ -130,6 +137,10 @@ if __name__ == "__main__":
   print "Checking if env is done deploying..."
   print "  %s: %s" % (newEnv['id'], classInstance.envDoneDeploying(newEnv['id']))
   print "  %s: %s" % (1, classInstance.envDoneDeploying(1))
+  print "...done"
+
+  print "Getting controller node's IP..."
+  print "IP: %s" % classInstance.getControllerNodeIPAddress(newEnv['id'])
   print "...done"
 
   print "Deleting env..."
