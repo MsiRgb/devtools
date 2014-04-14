@@ -5,6 +5,7 @@ import urllib
 import json
 import requests
 from exceptions import Exception
+import logging
 
 class RestHelper():
   def __init__(self):
@@ -21,7 +22,7 @@ class RestHelper():
     elif retVal.status_code < 200 or retVal.status_code > 300:
       raise Exception("Unknown error creating environment: %s" % (data['name']))
     try:
-      return self.toJson(retVal.text)
+      return self.toJson(retVal.content)
     except:
       return None      
   
@@ -35,7 +36,7 @@ class RestHelper():
     elif retVal.status_code < 200 or retVal.status_code > 300:
       raise Exception("Unknown error creating environment: %s" % (data['name']))
     try:
-      return self.toJson(retVal.text)
+      return self.toJson(retVal.content)
     except:
       return None          
   
@@ -48,11 +49,15 @@ class RestHelper():
       raise Exception("Error: Cluster not found in db")
     elif retVal.status_code < 200 or retVal.status_code > 300:
       raise Exception("Unknown error deleting environment: %s" % (data['name']))
-    return self.toJson(retVal.text)
+    return self.toJson(retVal.content)
 
   
   def getRequest(self, url, data={}):
-    return self.toJson(requests.get(url).text)
+    rc = requests.get(url)
+    try:
+      return self.toJson(rc.content)
+    except:
+      return None
   
 if __name__ == "__main__":
   import os

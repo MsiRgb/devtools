@@ -77,6 +77,7 @@ class PostInstallConfigurator():
         logging.info("Checking to see if %s responding to http..." % (remoteEndpoint))
         rc = requests.get(remoteEndpoint)
         if rc.status_code >= 200 and rc.status_code < 300: done = True
+        sleep(60)
       except Exception:
         logging.warning("%s is not alive yet, sleeping 60 seconds..." % remoteEndpoint)
         sleep(60)
@@ -100,12 +101,14 @@ class PostInstallConfigurator():
                                       vmCreateTmplFile=fuelAdminCfg['xml-template']) 
       logging.info("Waiting for fuel server to respond to HTTP...")
       self.waitForHttpResponse(self._fuelConfig.getFuelServerApiUrl())
+      sleep(60)
       logging.info("Fuel server is alive!")
     
     # For each enviornment, add the env in Fuel
     for env in envList:
       if self._args['delete_existing_envs']:
-        for currEnv in self._fuelInterface.listEnvs():
+        currEnvList = self._fuelInterface.listEnvs()
+        for currEnv in currEnvList:
           if currEnv['name'] == env['name']:
             self._fuelInterface.deleteEnv(currEnv['id'])
             # There is some kind of deletion race 
