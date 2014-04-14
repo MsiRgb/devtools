@@ -5,17 +5,17 @@ creating a new environment on the Fuel web interface.
 
 2. Clone official Fuel ISO
 
-        a. cd
-        b. git clone https://github.com/stackforge/fuel-main.git
-        c. cd ~/fuel-main
+        cd
+        git clone https://github.com/stackforge/fuel-main.git
+        cd ~/fuel-main
 
 3. Switch to 4.1 stable branch
 
-        a. git checkout stable/4.1
+        git checkout stable/4.1
 
 4. Edit configuration to reference MsiRgb repo for custom fuel-web
 
-        a. vi ./config.mk
+        vi ./config.mk
            Change  NAILGUN_REPO?=https://github.com/stackforge/fuel-web.git
            To      NAILGUN_REPO?=https://github.com/MsiRgb/fuel-web.git
            Change  NAILGUN_COMMIT?=stable/4.1
@@ -23,12 +23,12 @@ creating a new environment on the Fuel web interface.
 
 5. Install necessary packages
 
-        a. sudo apt-get install gem
-        b. sudo gem install bundler
-        c. mkdir ~/tmp
-        d. chmod 777 ~/tmp
+        sudo apt-get install gem
+        sudo gem install bundler
+        mkdir ~/tmp
+        chmod 777 ~/tmp
 
 6. Start the build process
 
-        a. make iso
+        make iso
 
