@@ -9,7 +9,7 @@ environments:
       - name: Controller2
         roles: controller,ceph-osd
       - name: Controller3
-        roles: controller,ceph-sd
+        roles: controller,ceph-osd
       - name: Compute1
         roles: compute
       - name: Compute2

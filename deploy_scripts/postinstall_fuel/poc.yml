@@ -1,0 +1,48 @@
+---
+fuel-server-api-url: http://10.20.0.2:8000/api/v1
+
+environments:
+  - name: PrivateOpenstackCloud
+    nodes:
+      - name: ControllerVM
+        roles: controller
+      - name: ComputeVM
+        roles: compute
+    release: 2
+    net-provider: nova_network
+    net-segment-type: gre
+    mode: multinode
+  
+vms:
+  - name: ControllerVM
+    nics: [ 'br1','br2','br3' ]
+    type: kvm
+    hdd-size: 30G
+    cpus: 4
+    memory: 10485760 
+    mac: ??:??:??:??:??:??
+  - name: ComputeVM
+    nics: [ 'br1','br2','br3' ]
+    type: kvm
+    hdd-size: 30G
+    cpus: 4
+    memory: 10485760 
+    mac: ??:??:??:??:??:??
+    
+fuel-admin:
+  name: FuelAdmin
+  nics: [ 'br1','br2','br3' ]
+  type: kvm
+  hdd-size: 30G
+  cpus: 4
+  memory: 4000000 
+  cdrom-iso: /var/lib/libvirt/images/inner.iso
+  xml-template: /var/tmp/postinstall/lib/templates/create_vm_fuel.xml
+
+host-aggregates:
+  - name: test-aggregate
+    availability-zone: nova
+    hosts:
+      - host: ControllerVM
+      - host: ComputeVM
+
