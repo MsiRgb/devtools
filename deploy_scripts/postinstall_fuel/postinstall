@@ -5,20 +5,10 @@ FUEL_PORT=8000
 
 exec 1>/var/log/postinstall.log 2>&1
 
-echo "Installing sshpass"
-dpkg -i /var/tmp/postinstall/repo/sshpass_1.05-1_amd64.deb
-
-echo "Installing virt-install"
-dpkg -i /var/tmp/postinstall/repo/virtinst_0.600.1-1ubuntu3_all.deb
-
-echo "Installing python-requests"
-dpkg -i /var/tmp/postinstall/repo/python-requests_0.8.2-1_all.deb
-
-echo "Installing python-markupsafe"
-dpkg -i /var/tmp/postinstall/repo/python-markupsafe_0.15-1_amd64.deb
-
-echo "Installing python-jinja2"
-dpkg -i /var/tmp/postinstall/repo/python-jinja2_2.6-1_amd64.deb
+for deb in $(ls -1 /var/tmp/postinstall/repo/*deb); do
+  echo "Installing $deb"
+  dpkg -i $deb
+done
 
 if $(virsh list --all | grep fuel-admin); then
   echo "fuel-admin VM is already running!"

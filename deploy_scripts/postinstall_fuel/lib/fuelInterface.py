@@ -52,7 +52,7 @@ class FuelInterface():
     for node in nodeList:
       if node['cluster'] == envId:
         retVal.append(node)
-    return retVal    
+    return retVal
     
   def getUnallocatedNodes(self):
     logging.info("Getting list of unallocated nodes")
@@ -84,6 +84,20 @@ class FuelInterface():
     if retVal['status'] == 'error':
       logging.info("Error deploying environment %s: %s" % (envId, retVal['message']))
     return retVal
+  
+  def envDoneDeploying(self, envId):
+    logging.info("Checking if %s is done deploying" % envId)
+    for currEnv in self.listEnvs():
+      if currEnv['id'] == envId:
+        return currEnv['status'] == "operational"
+    return False
+  
+  def getControllerNodeIPAddress(self, envId):
+    logging.info("Looking for first controller node in env: %s" % envId)
+    for node in self.getNodesByEnvId(envId):
+      if "controller" in node['roles']:
+        return node['ip']
+    return None
     
 if __name__ == "__main__":
   import os
@@ -93,6 +107,14 @@ if __name__ == "__main__":
   print "Listing envs..."
   print classInstance.listEnvs()
   print "...done"
+
+  print "Deleting old test env..."
+  try:
+    classInstance.deleteEnv(classInstance.getEnvIdByName("fuelInterface test env 1"))
+  except:
+    pass
+  print "...done"
+
   print "Creating new env..."
   newEnv = classInstance.createEnvironment("fuelInterface test env 1", 2, "multinode", "nova_network", "gre")
   print newEnv
@@ -109,9 +131,19 @@ if __name__ == "__main__":
     print "...done"
 
   print "Deploying env..."
-  classInstance.deployEnv(newEnv['id'])
+#  classInstance.deployEnv(newEnv['id'])
+  print "...done"
+
+  print "Checking if env is done deploying..."
+  print "  %s: %s" % (newEnv['id'], classInstance.envDoneDeploying(newEnv['id']))
+  print "  %s: %s" % (1, classInstance.envDoneDeploying(1))
+  print "...done"
+
+  print "Getting controller node's IP..."
+  print "IP: %s" % classInstance.getControllerNodeIPAddress(newEnv['id'])
   print "...done"
 
   print "Deleting env..."
   classInstance.deleteEnv(newEnv['id'])
   print "...done"
+
