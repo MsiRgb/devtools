@@ -1,0 +1,14 @@
+---
+fuel-server-api-url: http://10.20.0.2:8000/api/v1
+
+host-aggregates:
+  - name: test-aggregate
+    availability-zone: nova
+    meta-key: ssd
+    meta-value: true
+    flavor:
+      name: test-flavor
+      ram-mb: 8192
+      disk-gb: 80
+      vcpus: 4
+

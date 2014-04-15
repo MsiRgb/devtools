@@ -5,6 +5,7 @@ import argparse
 import logging
 from lib.fuelInterface import FuelInterface
 from lib.libvirtInterface import LibvirtInterface
+from lib.openstackInterface import OpenstackInterface
 from time import sleep
 import os
 from urlparse import urlparse
@@ -152,17 +153,39 @@ class PostInstallConfigurator():
         
     # Deploy environment if we are configured to
     if self._args['deploy_environment']:
-      self._fuelInterface.deployEnv(self._fuelInterface.getEnvIdByName(env['name']))
-
+      self._fuelInterface.deployEnv(
+        self._fuelInterface.getEnvIdByName(env['name']))
+        
     # Wait until environment finishes deploying
-    while not self._fuelInterface.envDoneDeploying(self._fuelInterface.getEnvIdByName(env['name'])):
+    while not self._fuelInterface.envDoneDeploying(
+               self._fuelInterface.getEnvIdByName(env['name'])):
       logging.info("Waiting 60s for environment to finish deploying...")
       sleep(60)
     
     # Load any host aggregates configured in the YAML file
-    for hostAggregate in self._fuelConfig.getHostAggregates():
-      logging.info("Adding host aggregate: %s" % (hostAggregate))
-      pass
+    if len(self._fuelConfig.getHostAggregates()) > 0:
+      controllerNode = self._fuelInterface.getControllerNodeIPAddress(
+                        self._fuelInterface.getEnvIdByName(env['name']))      
+      authUrl = "http://%s:5000/v2.0/" % (controllerNode)
+      openstackInterface = OpenstackInterface(authUrl=authUrl)
+      for hostAggregate in self._fuelConfig.getHostAggregates():
+        aggObj = openstackInterface.createHostAggregate(hostAggregate['name'], 
+                                                        hostAggregate['availability-zone'])
+        openstackInterface.aggregateSetMetadata(aggObj, hostAggregate['meta-key'], 
+                                                hostAggregate['meta-value'])
+        flavorObj = openstackInterface.flavorCreate(hostAggregate['flavor']['name'], 
+                                                    hostAggregate['flavor']['ram-mb'], 
+                                                    hostAggregate['flavor']['disk-gb'], 
+                                                    hostAggregate['flavor']['vcpus'])
+        openstackInterface.flavorSetKey(flavorObj,
+                                        hostAggregate['meta-key'], 
+                                        hostAggregate['meta-value'])
+        # Attempt to bind hosts
+        for host in hostAggregate['hosts']:
+          try:
+            openstackInterface.aggregateAddHost(aggObj, host["hostname"])
+          except:
+            pass
 
 if __name__ == "__main__":
   pic = PostInstallConfigurator()

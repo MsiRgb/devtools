@@ -17,22 +17,27 @@ class FuelConfig():
   def getEnvList(self):
     logging.info("Getting env list")
     if not self._currentConfig: self.loadYamlFile(self._yamlConfigFile)
-    return self._currentConfig['environments']
+    return self._currentConfig.get('environments', [])
   
   def getVmList(self):
     logging.info("Getting vm list")
     if not self._currentConfig: self.loadYamlFile(self._yamlConfigFile)
-    return self._currentConfig['vms']
+    return self._currentConfig.get('vms', [])
 
   def getFuelAdmin(self):
     logging.info("Getting fuel admin config")
     if not self._currentConfig: self.loadYamlFile(self._yamlConfigFile)
-    return self._currentConfig['fuel-admin']
+    return self._currentConfig.get('fuel-admin', None)
   
   def getFuelServerApiUrl(self):
     logging.info("Getting fuel server API url")
     if not self._currentConfig: self.loadYamlFile(self._yamlConfigFile)
-    return self._currentConfig['fuel-server-api-url']    
+    return self._currentConfig.get('fuel-server-api-url', None)
+  
+  def getHostAggregates(self):
+    logging.info("Getting host aggregates from config file")
+    if not self._currentConfig: self.loadYamlFile(self._yamlConfigFile)
+    return self._currentConfig.get('host-aggregates', [])
   
 if __name__ == "__main__":
   import os

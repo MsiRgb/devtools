@@ -37,6 +37,13 @@ vms:
 host-aggregates:
   - name: test-aggregate
     availability-zone: nova
+    meta-key: ssd
+    meta-value: true
     hosts:
-      - host: ControllerVM
-      - host: ComputeVM
+      - hostname: ControllerVM
+      - hostname: ComputeVM
+    flavor:
+      name: test-flavor
+      ram-mb: 8192
+      disk-gb: 80
+      vcpus: 4

@@ -27,14 +27,20 @@ class RestHelper():
       return None      
   
   def postRequest(self, url, data):
+    logging.info("Making post request to url: %s with data: %s" % (url,data))
     encodedData = json.dumps(data)
     retVal = requests.post(url, data=encodedData)
     if retVal.status_code == 400:
+      logging.error("Received status_code 400 back!")
       raise Exception("Error: Invalid data supplied! %s" % (data))
     elif retVal.status_code == 409:
+      logging.error("Received status_code 409 back!")
       raise Exception("Error: Environment %s already exists!" % (data['name']))
     elif retVal.status_code < 200 or retVal.status_code > 300:
       raise Exception("Unknown error creating environment: %s" % (data['name']))
+    else:
+      logging.error("Received status_code %s back!" % (retVal.status_code))
+
     try:
       return self.toJson(retVal.content)
     except:
