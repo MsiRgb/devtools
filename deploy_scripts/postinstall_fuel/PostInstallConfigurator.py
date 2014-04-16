@@ -167,8 +167,13 @@ class PostInstallConfigurator():
         self._fuelInterface.getEnvIdByName(env['name']))
          
     # Wait until environment finishes deploying
-    while not self._fuelInterface.envDoneDeploying(
-               self._fuelInterface.getEnvIdByName(env['name'])):
+    done = False
+    while not done:
+      try:
+        done = self._fuelInterface.envDoneDeploying(
+               self._fuelInterface.getEnvIdByName(env['name']))
+      except:
+        done = False
       logging.info("Waiting 60s for environment to finish deploying...")
       sleep(60)
      
