@@ -4,8 +4,8 @@ from lib.fuelConfig import FuelConfig
 import argparse
 import logging
 from lib.fuelInterface import FuelInterface
-from lib.libvirtInterface import LibvirtInterface
 from lib.openstackInterface import OpenstackInterface
+from lib.libvirtInterface import LibvirtInterface
 from time import sleep
 import os
 from urlparse import urlparse
@@ -53,18 +53,28 @@ class PostInstallConfigurator():
                         filename=self._args["log_file"],
                         format="%(asctime)s %(process)s %(name)s %(levelname)s: %(message)s")
   
-  def getNodeIdByVmName(self, vmName):
-    ''' Returns a fuel node id based on a libvirt created vm name '''
-    # rc['nics'][0]['mac']
+  def getCfgVmByHostName(self, cfgVmHostName):
+    for vm in self._fuelConfig.getVmList():
+      if vm['name'] == cfgVmHostName:
+        return vm
+  
+  def getUnallocatedNodeIdByVmName(self, vmName):
+    ''' Returns a fuel node id based on a libvirt created vm name
+        or a cfg-file specified mac address '''
+    cfgVm = self.getCfgVmByHostName(vmName)
     macList = []
-    vmParm = self._vmParms.get(vmName, None)
-    if vmParm:
-      for nic in vmParm['nics']:
-        macList.append(nic['mac'])
-      # Get a list of fuel nodes to search out this mac
-      for fuelNode in self._fuelInterface.getUnallocatedNodes():
-        if fuelNode['mac'] in macList:
-          return fuelNode['id']
+    if cfgVm.get("mac", None):
+      macList.append(cfgVm.get("mac"))      
+    else:
+      # Check libvirt
+      vmParm = self._vmParms.get(vmName, None)
+      if vmParm:
+        for nic in vmParm['nics']:
+          macList.append(nic['mac'])
+    # Get a list of fuel nodes to search out this mac
+    for fuelNode in self._fuelInterface.getUnallocatedNodes():
+      if fuelNode['mac'] in macList:
+        return fuelNode['id']
     return None
 
   def waitForHttpResponse(self, remoteEndpoint):
@@ -104,7 +114,7 @@ class PostInstallConfigurator():
       self.waitForHttpResponse(self._fuelConfig.getFuelServerApiUrl())
       sleep(60)
       logging.info("Fuel server is alive!")
-    
+     
     # For each enviornment, add the env in Fuel
     for env in envList:
       if self._args['delete_existing_envs']:
@@ -120,7 +130,7 @@ class PostInstallConfigurator():
                                             env['mode'],
                                             env['net-provider'], 
                                             env['net-segment-type'])
-    
+     
     # For each VM, create the VM (note: this is only for AIO)
     # Note: If the VM is pre-configured as a node, add it to the env
     for vm in self._fuelConfig.getVmList():
@@ -138,7 +148,7 @@ class PostInstallConfigurator():
       sleep(5)
       checkedInNodes = 0
       for vm in vmList:
-        if self.getNodeIdByVmName(vm['name']):
+        if self.getUnallocatedNodeIdByVmName(vm['name']):
           checkedInNodes += 1
       logging.info("Waiting for nodes to check in (%s/%s)" % (checkedInNodes, len(vmList)))
       allNodesCheckedIn = checkedInNodes >= len(vmList)
@@ -146,7 +156,7 @@ class PostInstallConfigurator():
     # For each VM, add primary MAC address as a new node to env
     for env in envList:
       for node in env['nodes']:
-        nodeId = pic.getNodeIdByVmName(node['name'])
+        nodeId = pic.getUnallocatedNodeIdByVmName(node['name'])
         roles = node['roles']
         envId = self._fuelInterface.getEnvIdByName(env['name'])
         self._fuelInterface.addNodeToEnvWithRole(nodeId, roles, envId)
@@ -155,13 +165,13 @@ class PostInstallConfigurator():
     if self._args['deploy_environment']:
       self._fuelInterface.deployEnv(
         self._fuelInterface.getEnvIdByName(env['name']))
-        
+         
     # Wait until environment finishes deploying
     while not self._fuelInterface.envDoneDeploying(
                self._fuelInterface.getEnvIdByName(env['name'])):
       logging.info("Waiting 60s for environment to finish deploying...")
       sleep(60)
-    
+     
     # Load any host aggregates configured in the YAML file
     if len(self._fuelConfig.getHostAggregates()) > 0:
       controllerNode = self._fuelInterface.getControllerNodeIPAddress(

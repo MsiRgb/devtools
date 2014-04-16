@@ -39,7 +39,7 @@ class RestHelper():
     elif retVal.status_code < 200 or retVal.status_code > 300:
       raise Exception("Unknown error creating environment: %s" % (data['name']))
     else:
-      logging.error("Received status_code %s back!" % (retVal.status_code))
+      logging.info("Received status_code %s back" % (retVal.status_code))
 
     try:
       return self.toJson(retVal.content)

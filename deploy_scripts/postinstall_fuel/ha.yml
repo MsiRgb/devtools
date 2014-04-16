@@ -28,42 +28,48 @@ vms:
     hdd-size: 30G
     cpus: 4
     memory: 10485760 
-    mac: ??:??:??:??:??:??
+    # Compute1
+    mac: 52:54:00:f2:e7:60
   - name: Controller2
     nics: [ 'br1','br2','br3' ]
     type: kvm
     hdd-size: 30G
     cpus: 4
     memory: 10485760
-    mac: ??:??:??:??:??:??
+    # Compute2
+    mac: 52:54:00:16:d5:1e
   - name: Controller3
     nics: [ 'br1','br2','br3' ]
     type: kvm
     hdd-size: 30G
     cpus: 4
     memory: 10485760
-    mac: ??:??:??:??:??:??
+    # Compute3
+    mac: 52:54:00:ab:30:39
   - name: Compute1
     nics: [ 'br1','br2','br3' ]
     type: kvm
     hdd-size: 30G
     cpus: 4
     memory: 10485760
-    mac: ??:??:??:??:??:??
+    # Compute4
+    mac: 52:54:00:ed:e0:2b
   - name: Compute2
     nics: [ 'br1','br2','br3' ]
     type: kvm
     hdd-size: 30G
     cpus: 4
     memory: 10485760
-    mac: ??:??:??:??:??:??
+    # Compute5
+    mac: 52:54:00:17:18:a9
   - name: Compute3
     nics: [ 'br1','br2','br3' ]
     type: kvm
     hdd-size: 30G
     cpus: 4
     memory: 10485760
-    mac: ??:??:??:??:??:??
+    # Compute6
+    mac: 52:54:00:c0:83:a8
 
     
 fuel-admin:
@@ -75,4 +81,15 @@ fuel-admin:
   memory: 4000000 
   cdrom-iso: /var/lib/libvirt/images/inner.iso
   xml-template: /var/tmp/postinstall/lib/templates/create_vm_fuel.xml
+
+host-aggregates:
+  - name: test-aggregate
+    availability-zone: nova
+    meta-key: ssd
+    meta-value: true
+    flavor:
+      name: test-flavor
+      ram-mb: 8192
+      disk-gb: 80
+      vcpus: 4
 
