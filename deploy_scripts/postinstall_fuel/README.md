@@ -1,7 +1,10 @@
 # Building a postinstall_fuel ISO
 
 ## Prerequisites
-- Follow all prepreqs required to build the AIO ISO (see README.md in parent dir)
+
+Clone this repo locally
+
+    git clone https://github.com/MsiRgb/devtools.git
 
 ## Configure
 
