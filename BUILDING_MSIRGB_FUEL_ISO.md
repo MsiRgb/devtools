@@ -25,6 +25,7 @@ creating a new environment on the Fuel web interface.
 
         sudo apt-get install gem
         sudo gem install bundler
+        
         mkdir ~/tmp
         chmod 777 ~/tmp
 
