@@ -21,9 +21,14 @@ creating a new environment on the Fuel web interface.
            Change  NAILGUN_COMMIT?=stable/4.1
            To      NAILGUN_COMMIT?=no_create_environment
 
-5. Install necessary packages
+5. Install necessary packages (If using Ubuntu 13.10 server minimal)
 
-        Note: If using Ubuntu 13.10 server minimal, also install 'rubygems', 'yum' and 'createrepo'
+        sudo apt-get install build-essential make git ruby ruby-dev rubygems debootstrap
+        sudo apt-get install python-setuptools yum yum-utils libmysqlclient-dev isomd5sum
+        sudo apt-get install python-nose libvirt-bin python-ipaddr python-paramiko python-yaml
+        sudo apt-get install python-pip kpartx extlinux unzip genisoimage nodejs
+
+5.1. Install necessary packages
 
         sudo apt-get install gem
         sudo gem install bundler
