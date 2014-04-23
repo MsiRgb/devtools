@@ -23,7 +23,7 @@ creating a new environment on the Fuel web interface.
 
 5. Install necessary packages
 
-Note: If using Ubuntu 13.10 server minimal, also install 'rubygems' and 'yum'
+        Note: If using Ubuntu 13.10 server minimal, also install 'rubygems', 'yum' and 'createrepo'
 
         sudo apt-get install gem
         sudo gem install bundler
