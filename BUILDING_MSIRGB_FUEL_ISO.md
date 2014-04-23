@@ -23,9 +23,10 @@ creating a new environment on the Fuel web interface.
 
 5. Install necessary packages
 
+Note: If using Ubuntu 13.10 server minimal, also install 'rubygems' and 'yum'
+
         sudo apt-get install gem
         sudo gem install bundler
-        
         mkdir ~/tmp
         chmod 777 ~/tmp
 
